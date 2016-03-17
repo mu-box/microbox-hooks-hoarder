@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# First, let's make sure hoarder is up-to-date
+# extract installed version
+hoarder_installed=$(cat /var/nanobox/hoarder.md5)
+# download the latest checksum
+curl \
+  -f \
+  -k \
+  -o /var/nanobox/hoarder.md5 \
+  https://s3.amazonaws.com/tools.nanopack.io/hoarder/linux/amd64/hoarder.md5
+# compare latest with installed
+hoarder_latest=$(cat /var/nanobox/hoarder.md5)
+if [ ! "$hoarder_installed" = "$hoarder_latest" ]; then
+  echo "Hoarder is out of date, updating to latest"
+  # stop the running Nanoagent
+  sv hoarder stop
+  # download the latest version
+  curl \
+    -f \
+    -k \
+    -o /usr/local/bin/hoarder \
+    https://s3.amazonaws.com/tools.nanopack.io/hoarder/linux/amd64/hoarder
+  # update permissions
+  chmod 755 /usr/local/bin/hoarder
+  # start the new version
+  sv hoarder start
+else
+  echo "Hoarder is up to date."
+fi
+
+# Now let's see if our hooks are up-to-date
+# extract installed version
+hooks_installed=$(cat /var/nanobox/hooks.md5)
+# download the latest checksum
+curl \
+  -f \
+  -k \
+  -o /var/nanobox/hooks.md5 \
+  https://s3.amazonaws.com/tools.nanobox.io/hooks/hoarder-stable.md5
+# compare latest with installed
+hooks_latest=$(cat /var/nanobox/hooks.md5)
+if [ ! "$hooks_installed" = "$hooks_latest" ]; then
+  echo "Hooks are out of date, updating to latest"
+  # download the latest version
+  curl \
+    -f \
+    -k \
+    https://s3.amazonaws.com/tools.nanobox.io/hooks/hoarder-stable.tgz \
+      | tar -xz -C /opt/nanobox/hooks
+else
+  echo "Hooks are up to date."
+fi

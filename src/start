@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+# hookit is installed as a bundled app, so we need bundler to load it for us
+$:.unshift  '/opt/gonano/hookit/vendor/bundle'
+require 'bundler/setup'
+
+# load hookit/setup to bootstrap hookit and import the dsl
+require 'hookit/setup'
+
+# create the runit definitions for narc
+directory '/etc/service/narc' do
+  recursive true
+end
+
+directory '/etc/service/narc/log' do
+  recursive true
+end
+
+hook_file '/etc/service/narc/log/run' do
+  source 'runit/narc-log'
+  mode 0755
+end
+
+hook_file '/etc/service/narc/run' do
+  source 'runit/narc'
+  mode 0755
+end
+
+service 'narc' do
+  action :enable
+end
+
+# create the runit definitions for hoarder
+directory '/etc/service/hoarder' do
+  recursive true
+end
+
+directory '/etc/service/hoarder/log' do
+  recursive true
+end
+
+hook_file '/etc/service/hoarder/log/run' do
+  source 'runit/hoarder-log'
+  mode 0755
+end
+
+hook_file '/etc/service/hoarder/run' do
+  source 'runit/hoarder'
+  mode 0755
+end
+
+service 'hoarder' do
+  action :enable
+end
