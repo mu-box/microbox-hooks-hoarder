@@ -9,17 +9,15 @@ require 'hookit/setup'
 
 # This hook will export the data to the new members while the service is
 # still online.
-payload[:members].each do |member|
-  execute "send bulk data to new member" do
-    command <<-EOF
-      tar \
-        -cf \
-        - \
-        /var/db/hoarder \
-          | ssh \
-            -o StrictHostKeyChecking=no \
-            #{member[:local_ip]} \
-            tar -xpf -
-    EOF
-  end
+execute "send bulk data to new member" do
+  command <<-EOF
+    tar \
+      -cf \
+      - \
+      /var/db/hoarder \
+        | ssh \
+          -o StrictHostKeyChecking=no \
+          #{payload[:member][:local_ip]} \
+          tar -xpf -
+  EOF
 end

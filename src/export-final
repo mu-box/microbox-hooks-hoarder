@@ -8,14 +8,12 @@ require 'bundler/setup'
 require 'hookit/setup'
 
 # This hook will export the data to the new members while the service is offline
-payload[:members].each do |member|
-  execute "send diff data to new member" do
-    command <<-EOF
-      rsync \
-        --delete \
-        -a \
-        /var/db/hoarder/. \
-        #{member[:local_ip]}:/var/db/hoarder/
-    EOF
-  end
+execute "send diff data to new member" do
+  command <<-EOF
+    rsync \
+      --delete \
+      -a \
+      /var/db/hoarder/. \
+      #{payload[:member][:local_ip]}:/var/db/hoarder/
+  EOF
 end

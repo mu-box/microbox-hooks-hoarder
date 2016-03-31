@@ -12,7 +12,7 @@
 }
 
 @test "Start Hoarder On Old" {
-  run run_hook "test-migrate-old" "start" "{}"
+  run run_hook "test-migrate-old" "start" "$(payload start)"
   [ "$status" -eq 0 ]
 }
 
@@ -23,16 +23,16 @@
 }
 
 @test "Start New Container" {
-  start_container "test-migrate-new" "192.168.0.3"
+  start_container "test-migrate-new" "192.168.0.4"
 }
 
 @test "Configure New Hoarder" {
-  run run_hook "test-migrate-new" "configure" "$(payload configure)"
+  run run_hook "test-migrate-new" "configure" "$(payload configure-new)"
   [ "$status" -eq 0 ]
 }
 
 @test "Prepare New Import" {
-  run run_hook "test-migrate-new" "import-prep" "{}"
+  run run_hook "test-migrate-new" "import-prep" "$(payload import-prep)"
   [ "$status" -eq 0 ]
 }
 
@@ -43,7 +43,7 @@
 }
 
 @test "Stop Old Hoarder Service" {
-  run run_hook "test-migrate-old" "stop" "{}"
+  run run_hook "test-migrate-old" "stop" "$(payload stop)"
   [ "$status" -eq 0 ]
 }
 
@@ -54,12 +54,12 @@
 }
 
 @test "Clean After Import" {
-  run run_hook "test-migrate-new" "import-clean" "{}"
+  run run_hook "test-migrate-new" "import-clean" "$(payload import-clean)"
   [ "$status" -eq 0 ]
 }
 
 @test "Start New Hoarder Service" {
-  run run_hook "test-migrate-new" "start" "{}"
+  run run_hook "test-migrate-new" "start" "$(payload start)"
   [ "$status" -eq 0 ]
 }
 

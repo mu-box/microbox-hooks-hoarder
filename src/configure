@@ -29,7 +29,7 @@ end
 # configure narc
 template '/opt/gonano/etc/narc.conf' do
   variables ({
-    uid: payload[:uid], logvac: payload[:logvac_host]
+    uid: payload[:component][:uid], logvac: payload[:logvac_host]
   })
 end
 
