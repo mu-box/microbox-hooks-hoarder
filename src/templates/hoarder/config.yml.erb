@@ -1,7 +1,7 @@
 clean_after: 0                       # the age that data is deemed garbage (seconds)
 backend: "file:///var/db/hoarder"    # the pluggable backend the api will use for storage
 host: 0.0.0.0                        # the connection host
-insecure: true                       # connect insecurely
+insecure: false                       # connect insecurely
 log_level: "info"                    # the output log level
 port: "7410"                         # the connection port
 token: "<%= config[:token] %>"       # the secure token used to connect with (no auth by default)

@@ -35,18 +35,18 @@
 
 @test "Verify Service" {
   # Verify blob list is empty
-  run docker exec test-single bash -c "curl -H \"x-auth-token: 123\" http://localhost:7410/blobs 2> /dev/null"
+  run docker exec test-single bash -c "curl -k -H \"x-auth-token: 123\" https://localhost:7410/blobs 2> /dev/null"
   echo "$output"
   [ "$status" -eq 0 ]
   [ "$output" = "[]" ]
 
   # Add a blob
-  run docker exec test-single bash -c "curl -H \"x-auth-token: 123\" http://localhost:7410/blobs/test -d \"data\" 2> /dev/null "
+  run docker exec test-single bash -c "curl -k -H \"x-auth-token: 123\" https://localhost:7410/blobs/test -d \"data\" 2> /dev/null "
   echo "$output"
   [ "$status" -eq 0 ]
 
   # Verify blob exists
-  run docker exec test-single bash -c "curl -H \"x-auth-token: 123\" http://localhost:7410/blobs/test 2> /dev/null"
+  run docker exec test-single bash -c "curl -k -H \"x-auth-token: 123\" https://localhost:7410/blobs/test 2> /dev/null"
   echo "$output"
   [ "$status" -eq 0 ]
   [ "$output" = "data" ]

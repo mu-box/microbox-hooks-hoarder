@@ -17,7 +17,7 @@
 }
 
 @test "Insert Service Data" {
-  run docker exec "test-migrate-old" bash -c "curl -H \"x-auth-token: 123\" http://localhost:7410/blobs/test -d \"data\" 2> /dev/null "
+  run docker exec "test-migrate-old" bash -c "curl -k -H \"x-auth-token: 123\" https://localhost:7410/blobs/test -d \"data\" 2> /dev/null "
   echo "$output"
   [ "$status" -eq 0 ]
 }
@@ -64,7 +64,7 @@
 }
 
 @test "Verify Data Transfered" {
-  run docker exec "test-migrate-new" bash -c "curl -H \"x-auth-token: 123\" http://localhost:7410/blobs/test 2> /dev/null"
+  run docker exec "test-migrate-new" bash -c "curl -k -H \"x-auth-token: 123\" https://localhost:7410/blobs/test 2> /dev/null"
   [ "$status" -eq 0 ]
   echo "$output"
   [ "$output" = "data" ]
