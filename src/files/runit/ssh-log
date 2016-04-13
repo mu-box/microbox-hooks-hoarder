@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 # create the log directory if it doesn't exist
-[ -d /var/log/gonano/ssh ] || mkdir -p /var/log/gonano/ssh %>
+[ -d /var/log/gonano/ssh ] || mkdir -p /var/log/gonano/ssh
 
 # tell svlogd to drop the stdout into our custom location
 cd /var/log/gonano/ssh
