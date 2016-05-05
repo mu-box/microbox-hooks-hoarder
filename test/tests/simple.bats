@@ -28,12 +28,16 @@
   run docker exec test-single bash -c "ps aux | grep [h]oarder"
   [ "$status" -eq 0 ]
 
+  # Verify slurp running
+  run docker exec test-single bash -c "ps aux | grep [s]lurp"
+  [ "$status" -eq 0 ]
+
   # Verify narc running
   run docker exec test-single bash -c "ps aux | grep [n]arc"
   [ "$status" -eq 0 ]
 }
 
-@test "Verify Service" {
+@test "Verify Hoarder Service" {
   # Verify blob list is empty
   run docker exec test-single bash -c "curl -k -H \"x-auth-token: 123\" https://localhost:7410/blobs 2> /dev/null"
   echo "$output"

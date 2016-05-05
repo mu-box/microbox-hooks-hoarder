@@ -26,6 +26,25 @@ template '/etc/hoarder/config.yml' do
   group 'gonano'
 end
 
+# ensure slurp data directory exists
+directory '/var/db/slurp' do
+  recursive true
+end
+
+# ensure the etc config directory exists
+directory '/etc/slurp' do
+  recursive true
+end
+
+# generate the config file
+template '/etc/slurp/config.json' do
+  source 'slurp/config.json.erb'
+  mode 0644
+  variables ({ config: payload[:config] })
+  owner 'gonano'
+  group 'gonano'
+end
+
 # configure narc
 template '/opt/gonano/etc/narc.conf' do
   variables ({

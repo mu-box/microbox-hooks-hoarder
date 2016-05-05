@@ -17,6 +17,16 @@ directory '/etc/service/hoarder' do
   action :delete
 end
 
+# Stop slurp
+service 'slurp' do
+  action :disable
+end
+
+# Remove slurp runit definition
+directory '/etc/service/slurp' do
+  action :delete
+end
+
 # Stop narc
 service 'narc' do
   action :disable

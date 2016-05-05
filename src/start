@@ -52,3 +52,26 @@ end
 service 'hoarder' do
   action :enable
 end
+
+# create the runit definitions for slurp
+directory '/etc/service/slurp' do
+  recursive true
+end
+
+directory '/etc/service/slurp/log' do
+  recursive true
+end
+
+hook_file '/etc/service/slurp/log/run' do
+  source 'runit/slurp-log'
+  mode 0755
+end
+
+hook_file '/etc/service/slurp/run' do
+  source 'runit/slurp'
+  mode 0755
+end
+
+service 'slurp' do
+  action :enable
+end

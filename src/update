@@ -14,7 +14,7 @@ hoarder_latest=$(cat /var/nanobox/hoarder.md5)
 if [ ! "$hoarder_installed" = "$hoarder_latest" ]; then
   echo "Hoarder is out of date, updating to latest"
   # stop the running Nanoagent
-  sv hoarder stop
+  sv stop hoarder
   # download the latest version
   curl \
     -f \
@@ -24,9 +24,38 @@ if [ ! "$hoarder_installed" = "$hoarder_latest" ]; then
   # update permissions
   chmod 755 /usr/local/bin/hoarder
   # start the new version
-  sv hoarder start
+  sv start hoarder
 else
   echo "Hoarder is up to date."
+fi
+
+# First, let's make sure slurp is up-to-date
+# extract installed version
+slurp_installed=$(cat /var/nanobox/slurp.md5)
+# download the latest checksum
+curl \
+  -f \
+  -k \
+  -o /var/nanobox/slurp.md5 \
+  https://s3.amazonaws.com/tools.nanopack.io/slurp/linux/amd64/slurp.md5
+# compare latest with installed
+slurp_latest=$(cat /var/nanobox/slurp.md5)
+if [ ! "$slurp_installed" = "$slurp_latest" ]; then
+  echo "Slurp is out of date, updating to latest"
+  # stop the running Nanoagent
+  sv stop slurp
+  # download the latest version
+  curl \
+    -f \
+    -k \
+    -o /usr/local/bin/slurp \
+    https://s3.amazonaws.com/tools.nanopack.io/slurp/linux/amd64/slurp
+  # update permissions
+  chmod 755 /usr/local/bin/slurp
+  # start the new version
+  sv start slurp
+else
+  echo "Slurp is up to date."
 fi
 
 # Now let's see if our hooks are up-to-date
