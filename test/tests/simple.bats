@@ -59,6 +59,12 @@
 @test "Stop" {
   # Run hook
   run run_hook "test-single" "stop" "$(payload stop)"
+  echo "$output"
+  [ "$status" -eq 0 ]
+
+  # Run stop a second time, it shouldn't break things
+  run run_hook "test-single" "stop" "$(payload stop)"
+  echo "$output"
   [ "$status" -eq 0 ]
 
   # Wait until services shut down
