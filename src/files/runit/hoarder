@@ -4,4 +4,4 @@
 export PATH="/data/sbin:/data/bin:/opt/gonano/sbin:/opt/gonano/bin:/opt/local/sbin:/opt/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # command to run hoarder
-exec hoarder --server --config /etc/hoarder/config.yml
+exec hoarder -c /etc/hoarder/config.yml
