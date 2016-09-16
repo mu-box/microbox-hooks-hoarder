@@ -19,7 +19,7 @@ aws_hoarder_md5 = execute "aws hoarder md5" do
     bash -c 'curl \
       -f \
       -k \
-      https://s3.amazonaws.com/tools.nanopack.io/hoarder/linux/amd64/hoarder.md5 \
+      https://d3ep67zochz54j.cloudfront.net/hoarder/linux/amd64/hoarder.md5 \
         | tee /var/nanobox/hoarder.md5'
   END
 end
@@ -39,7 +39,7 @@ if local_hoarder_md5 != aws_hoarder_md5
         -f \
         -k \
         -o /usr/local/bin/hoarder
-        https://s3.amazonaws.com/tools.nanopack.io/hoarder/linux/amd64/hoarder'
+        https://d3ep67zochz54j.cloudfront.net/hoarder/linux/amd64/hoarder'
     END
   end
 
@@ -67,7 +67,7 @@ aws_slurp_md5 = execute "aws slurp md5" do
     bash -c 'curl \
       -f \
       -k \
-      https://s3.amazonaws.com/tools.nanopack.io/slurp/linux/amd64/slurp.md5 \
+      https://d3ep67zochz54j.cloudfront.net/slurp/linux/amd64/slurp.md5 \
         | tee /var/nanobox/slurp.md5'
   END
 end
@@ -87,7 +87,7 @@ if local_slurp_md5 != aws_slurp_md5
         -f \
         -k \
         -o /usr/local/bin/slurp
-        https://s3.amazonaws.com/tools.nanopack.io/slurp/linux/amd64/slurp'
+        https://d3ep67zochz54j.cloudfront.net/slurp/linux/amd64/slurp'
     END
   end
 
@@ -115,7 +115,7 @@ aws_hooks_md5 = execute "aws hooks md5" do
     bash -c 'curl \
       -f \
       -k \
-      https://s3.amazonaws.com/tools.nanobox.io/hooks/hoarder-stable.md5 \
+      https://d1ormdui8qdvue.cloudfront.net/hooks/hoarder-stable.md5 \
         | tee /var/nanobox/hooks.md5'
   END
 end
@@ -127,7 +127,7 @@ if local_hooks_md5 != aws_hooks_md5
       bash -c 'curl \
           -f \
           -k \
-          https://s3.amazonaws.com/tools.nanobox.io/hooks/hoarder-stable.tgz \
+          https://d1ormdui8qdvue.cloudfront.net/hooks/hoarder-stable.tgz \
             | tar -xz -C /opt/nanobox/hooks'
     END
   end
