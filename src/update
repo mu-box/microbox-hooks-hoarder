@@ -7,7 +7,7 @@ require 'bundler/setup'
 # load hookit/setup to bootstrap hookit and import the dsl
 require 'hookit/setup'
 
-logger = NanoBox::Logvac.new(host: payload[:logvac_host], id: "#{payload[:component][:uid]}.#{payload[:member][:uid]}[update]")
+logger = Nanobox::Logvac.new(host: payload[:logvac_host], id: "#{payload[:component][:uid]}.#{payload[:member][:uid]}[update]")
 
 local_hoarder_md5 = execute "local hoarder md5" do
   command "cat /var/nanobox/hoarder.md5"
