@@ -7,8 +7,6 @@ require 'bundler/setup'
 # load hookit/setup to bootstrap hookit and import the dsl
 require 'hookit/setup'
 
-logger = Nanobox::Logvac.new(host: payload[:logvac_host], id: "#{payload[:component][:uid]}.#{payload[:member][:uid]}[update]")
-
 local_hoarder_md5 = execute "local hoarder md5" do
   command "cat /var/nanobox/hoarder.md5"
   not_if { ! ::File.exists? "/var/nanobox/hoarder.md5" }
@@ -25,7 +23,6 @@ aws_hoarder_md5 = execute "aws hoarder md5" do
 end
 
 if local_hoarder_md5 != aws_hoarder_md5
-  logger.puts('Hoarder is out of date, updating to latest')
 
   # Stop hoarder
   service 'hoarder' do
@@ -54,7 +51,6 @@ if local_hoarder_md5 != aws_hoarder_md5
     not_if { !Dir.exist?('/etc/service/hoarder') }
   end
 else
-  logger.puts('Hoarder is up to date.')
 end
 
 local_slurp_md5 = execute "local slurp md5" do
@@ -73,7 +69,6 @@ aws_slurp_md5 = execute "aws slurp md5" do
 end
 
 if local_slurp_md5 != aws_slurp_md5
-  logger.puts('Slurp is out of date, updating to latest')
 
   # Stop slurp
   service 'slurp' do
@@ -101,8 +96,6 @@ if local_slurp_md5 != aws_slurp_md5
     action :enable
     not_if { !Dir.exist?('/etc/service/slurp') }
   end
-else
-  logger.puts('Slurp is up to date.')
 end
 
 local_hooks_md5 = execute "local hooks md5" do
@@ -121,7 +114,6 @@ aws_hooks_md5 = execute "aws hooks md5" do
 end
 
 if local_hooks_md5 != aws_hooks_md5
-  logger.puts "Hooks are out of date, updating to latest"
   execute "update hooks" do
     command <<-END
       bash -c 'curl \
@@ -131,6 +123,4 @@ if local_hooks_md5 != aws_hooks_md5
             | tar -xz -C /opt/nanobox/hooks'
     END
   end
-else
-  logger.puts "Hooks are up to date."
 end
