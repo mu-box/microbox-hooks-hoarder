@@ -7,27 +7,29 @@ require 'bundler/setup'
 # load hookit/setup to bootstrap hookit and import the dsl
 require 'hookit/setup'
 
-# create the runit definitions for narc
-directory '/etc/service/narc' do
-  recursive true
-end
+if File.exist?('/opt/gonano/etc/narc.conf')
+  # create the runit definitions for narc
+  directory '/etc/service/narc' do
+    recursive true
+  end
 
-directory '/etc/service/narc/log' do
-  recursive true
-end
+  directory '/etc/service/narc/log' do
+    recursive true
+  end
 
-hook_file '/etc/service/narc/log/run' do
-  source 'runit/narc-log'
-  mode 0755
-end
+  hook_file '/etc/service/narc/log/run' do
+    source 'runit/narc-log'
+    mode 0755
+  end
 
-hook_file '/etc/service/narc/run' do
-  source 'runit/narc'
-  mode 0755
-end
+  hook_file '/etc/service/narc/run' do
+    source 'runit/narc'
+    mode 0755
+  end
 
-service 'narc' do
-  action :enable
+  service 'narc' do
+    action :enable
+  end
 end
 
 # create the runit definitions for hoarder
