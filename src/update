@@ -14,11 +14,11 @@ end
 
 aws_hoarder_md5 = execute "aws hoarder md5" do
   command <<-END 
-    bash -c 'curl \
+    curl \
       -f \
       -k \
       https://d3ep67zochz54j.cloudfront.net/hoarder/linux/amd64/hoarder.md5 \
-        | tee /var/nanobox/hoarder.md5'
+        | tee /tmp/hoarder.md5
   END
 end
 
@@ -32,25 +32,26 @@ if local_hoarder_md5 != aws_hoarder_md5
 
   execute "Download hoarder" do
     command <<-END 
-      bash -c 'curl \
+      curl \
         -f \
         -k \
-        -o /usr/local/bin/hoarder
-        https://d3ep67zochz54j.cloudfront.net/hoarder/linux/amd64/hoarder'
+        -o /usr/local/bin/hoarder \
+        https://d3ep67zochz54j.cloudfront.net/hoarder/linux/amd64/hoarder
     END
   end
 
   execute "Chmod hoarder" do
-    command <<-END 
-      bash -c 'chmod 755 /usr/local/bin/hoarder'
-    END
+    command "chmod 755 /usr/local/bin/hoarder"
   end
 
   service 'hoarder' do
     action :enable
     not_if { !Dir.exist?('/etc/service/hoarder') }
   end
-else
+
+  execute "Finalize update" do
+    command "mv /tmp/hoarder.md5 /var/nanobox/hoarder.md5"
+  end
 end
 
 local_slurp_md5 = execute "local slurp md5" do
@@ -60,11 +61,11 @@ end
 
 aws_slurp_md5 = execute "aws slurp md5" do
   command <<-END 
-    bash -c 'curl \
+    curl \
       -f \
       -k \
       https://d3ep67zochz54j.cloudfront.net/slurp/linux/amd64/slurp.md5 \
-        | tee /var/nanobox/slurp.md5'
+        | tee /tmp/slurp.md5
   END
 end
 
@@ -78,23 +79,25 @@ if local_slurp_md5 != aws_slurp_md5
 
   execute "Download slurp" do
     command <<-END 
-      bash -c 'curl \
+      curl \
         -f \
         -k \
         -o /usr/local/bin/slurp
-        https://d3ep67zochz54j.cloudfront.net/slurp/linux/amd64/slurp'
+        https://d3ep67zochz54j.cloudfront.net/slurp/linux/amd64/slurp
     END
   end
 
   execute "Chmod slurp" do
-    command <<-END 
-      bash -c 'chmod 755 /usr/local/bin/slurp'
-    END
+    command "chmod 755 /usr/local/bin/slurp"
   end
 
   service 'slurp' do
     action :enable
     not_if { !Dir.exist?('/etc/service/slurp') }
+  end
+
+  execute "Finalize update" do
+    command "mv /tmp/slurp.md5 /var/nanobox/slurp.md5"
   end
 end
 
@@ -105,22 +108,22 @@ end
 
 aws_hooks_md5 = execute "aws hooks md5" do
   command <<-END
-    bash -c 'curl \
+    curl \
       -f \
       -k \
       https://d1ormdui8qdvue.cloudfront.net/hooks/hoarder-stable.md5 \
-        | tee /var/nanobox/hooks.md5'
+        | tee /var/nanobox/hooks.md5
   END
 end
 
 if local_hooks_md5 != aws_hooks_md5
   execute "update hooks" do
     command <<-END
-      bash -c 'curl \
-          -f \
-          -k \
-          https://d1ormdui8qdvue.cloudfront.net/hooks/hoarder-stable.tgz \
-            | tar -xz -C /opt/nanobox/hooks'
+      curl \
+        -f \
+        -k \
+        https://d1ormdui8qdvue.cloudfront.net/hooks/hoarder-stable.tgz \
+          | tar -xz -C /opt/nanobox/hooks
     END
   end
 end
