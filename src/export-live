@@ -18,7 +18,7 @@ execute "send hoarder bulk data to new member" do
         | ssh \
           -o StrictHostKeyChecking=no \
           #{payload[:member][:local_ip]} \
-          tar -xpf -
+          tar -C / -xpf -
   EOF
 end
 
@@ -31,6 +31,6 @@ execute "send slurp bulk data to new member" do
         | ssh \
           -o StrictHostKeyChecking=no \
           #{payload[:member][:local_ip]} \
-          tar -xpf -
+          tar -C / -xpf -
   EOF
 end
