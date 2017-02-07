@@ -21,7 +21,7 @@ end
 template '/etc/hoarder/config.yml' do
   source 'hoarder/config.yml.erb'
   mode 0644
-  variables ({ config: payload[:config] })
+  variables ({ config: (payload[:config] || {}) })
   owner 'gonano'
   group 'gonano'
 end
@@ -40,7 +40,7 @@ end
 template '/etc/slurp/config.json' do
   source 'slurp/config.json.erb'
   mode 0644
-  variables ({ config: payload[:config] })
+  variables ({ config: (payload[:config] || {}) })
   owner 'gonano'
   group 'gonano'
 end
