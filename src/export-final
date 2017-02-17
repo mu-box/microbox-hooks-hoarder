@@ -9,21 +9,17 @@ require 'hookit/setup'
 
 # This hook will export the data to the new members while the service is offline
 execute "send hoarder diff data to new member" do
-  command <<-EOF
-    rsync \
-      --delete \
-      -a \
-      /var/db/hoarder/. \
-      #{payload[:member][:local_ip]}:/var/db/hoarder/
-  EOF
+  command "rsync \
+    --delete \
+    -e 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' \
+    -a /var/db/hoarder/. \
+    #{payload[:member][:local_ip]}:/var/db/hoarder/"
 end
 
 execute "send slurp diff data to new member" do
-  command <<-EOF
-    rsync \
-      --delete \
-      -a \
-      /var/db/slurp/. \
-      #{payload[:member][:local_ip]}:/var/db/slurp/
-  EOF
+  command "rsync \
+    --delete \
+    -e 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' \
+    -a /var/db/slurp/. \
+    #{payload[:member][:local_ip]}:/var/db/slurp/"
 end
