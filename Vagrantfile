@@ -20,7 +20,7 @@ Vagrant.configure(2) do |config|
 
       # add the source to our apt sources
       echo \
-        "deb https://apt.dockerproject.org/repo ubuntu-trusty main \n" \
+        "deb https://download.docker.com/linux/ubuntu trusty main \n" \
           > /etc/apt/sources.list.d/docker.list
 
       # update the package index
@@ -59,17 +59,17 @@ Vagrant.configure(2) do |config|
   # pull the build image to run tests in
   config.vm.provision "shell", inline: <<-SCRIPT
     echo "Pulling the hoarder image"
-    docker pull nanobox/hoarder
+    docker pull mubox/hoarder
   SCRIPT
 
   # create an adhoc network
   config.vm.provision "shell", inline: <<-SCRIPT
-    if [[ ! `docker network ls | grep nanobox` ]]; then
+    if [[ ! `docker network ls | grep microbox` ]]; then
       docker network create \
         --driver=bridge \
         --subnet=192.168.0.0/16 \
         --opt="com.docker.network.driver.mtu=1450" \
-        --opt="com.docker.network.bridge.name=redd0" nanobox
+        --opt="com.docker.network.bridge.name=redd0" microbox
     fi
   SCRIPT
 

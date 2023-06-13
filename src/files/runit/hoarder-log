@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
 # create the log directory if it doesn't exist
-[ -d /var/log/gonano/hoarder ] || mkdir -p /var/log/gonano/hoarder
+[ -d /var/log/gomicro/hoarder ] || mkdir -p /var/log/gomicro/hoarder
 
 # tell svlogd to drop the stdout into our custom location
-cd /var/log/gonano/hoarder
-exec svlogd -v -ttt /var/log/gonano/hoarder
+cd /var/log/gomicro/hoarder
+exec svlogd -v -ttt /var/log/gomicro/hoarder

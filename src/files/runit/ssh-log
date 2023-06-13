@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
 # create the log directory if it doesn't exist
-[ -d /var/log/gonano/ssh ] || mkdir -p /var/log/gonano/ssh
+[ -d /var/log/gomicro/ssh ] || mkdir -p /var/log/gomicro/ssh
 
 # tell svlogd to drop the stdout into our custom location
-cd /var/log/gonano/ssh
-exec svlogd -v -ttt /var/log/gonano/ssh
+cd /var/log/gomicro/ssh
+exec svlogd -v -ttt /var/log/gomicro/ssh

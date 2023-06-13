@@ -10,11 +10,11 @@ docker run \
   --name=test-console \
   -d \
   --privileged \
-  --net=nanobox \
+  --net=microbox \
   --ip=192.168.0.55 \
-  --volume=${hookit_dir}/:/opt/nanobox/hooks \
+  --volume=${hookit_dir}/:/opt/microbox/hooks \
   --volume=${payload_dir}/:/payloads \
-  nanobox/hoarder
+  mubox/hoarder
 
 docker exec -it test-console bash
 

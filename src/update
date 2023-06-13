@@ -1,22 +1,22 @@
 #!/usr/bin/env ruby
 
 # hookit is installed as a bundled app, so we need bundler to load it for us
-$:.unshift  '/opt/gonano/hookit/vendor/bundle'
+$:.unshift  '/opt/gomicro/hookit/vendor/bundle'
 require 'bundler/setup'
 
 # load hookit/setup to bootstrap hookit and import the dsl
 require 'hookit/setup'
 
 local_hoarder_md5 = execute "local hoarder md5" do
-  command "cat /var/nanobox/hoarder.md5"
-  not_if { ! ::File.exists? "/var/nanobox/hoarder.md5" }
+  command "cat /var/microbox/hoarder.md5"
+  not_if { ! ::File.exists? "/var/microbox/hoarder.md5" }
 end
 
 aws_hoarder_md5 = execute "aws hoarder md5" do
   command "curl \
       -f \
       -k \
-      https://d3ep67zochz54j.cloudfront.net/hoarder/linux/amd64/hoarder.md5 \
+      https://s3.amazonaws.com/tools.microbox.cloud/hoarder/linux/amd64/hoarder.md5 \
         | tee /tmp/hoarder.md5"
 end
 
@@ -32,7 +32,7 @@ if local_hoarder_md5 != aws_hoarder_md5
         -f \
         -k \
         -o /usr/local/bin/hoarder \
-        https://d3ep67zochz54j.cloudfront.net/hoarder/linux/amd64/hoarder"
+        https://s3.amazonaws.com/tools.microbox.cloud/hoarder/linux/amd64/hoarder"
   end
 
   execute "Chmod hoarder" do
@@ -45,20 +45,20 @@ if local_hoarder_md5 != aws_hoarder_md5
   end
 
   execute "Finalize update" do
-    command "mv /tmp/hoarder.md5 /var/nanobox/hoarder.md5"
+    command "mv /tmp/hoarder.md5 /var/microbox/hoarder.md5"
   end
 end
 
 local_slurp_md5 = execute "local slurp md5" do
-  command "cat /var/nanobox/slurp.md5"
-  not_if { ! ::File.exists? "/var/nanobox/slurp.md5" }
+  command "cat /var/microbox/slurp.md5"
+  not_if { ! ::File.exists? "/var/microbox/slurp.md5" }
 end
 
 aws_slurp_md5 = execute "aws slurp md5" do
   command "curl \
     -f \
     -k \
-    https://d3ep67zochz54j.cloudfront.net/slurp/linux/amd64/slurp.md5 \
+    https://s3.amazonaws.com/tools.microbox.cloud/slurp/linux/amd64/slurp.md5 \
       | tee /tmp/slurp.md5"
 end
 
@@ -75,7 +75,7 @@ if local_slurp_md5 != aws_slurp_md5
       -f \
       -k \
       -o /usr/local/bin/slurp \
-      https://d3ep67zochz54j.cloudfront.net/slurp/linux/amd64/slurp"
+      https://s3.amazonaws.com/tools.microbox.cloud/slurp/linux/amd64/slurp"
   end
 
   execute "Chmod slurp" do
@@ -88,20 +88,20 @@ if local_slurp_md5 != aws_slurp_md5
   end
 
   execute "Finalize update" do
-    command "mv /tmp/slurp.md5 /var/nanobox/slurp.md5"
+    command "mv /tmp/slurp.md5 /var/microbox/slurp.md5"
   end
 end
 
 local_hooks_md5 = execute "local hooks md5" do
-  command "cat /var/nanobox/hooks.md5"
-  not_if { ! ::File.exists? "/var/nanobox/hooks.md5" }
+  command "cat /var/microbox/hooks.md5"
+  not_if { ! ::File.exists? "/var/microbox/hooks.md5" }
 end
 
 aws_hooks_md5 = execute "aws hooks md5" do
   command "curl \
     -f \
     -k \
-    https://d1ormdui8qdvue.cloudfront.net/hooks/hoarder-stable.md5 \
+    https://s3.amazonaws.com/tools.microbox.cloud/hooks/hoarder-stable.md5 \
       | tee /tmp/hooks.md5"
 end
 
@@ -110,11 +110,11 @@ if local_hooks_md5 != aws_hooks_md5
     command "curl \
       -f \
       -k \
-      https://d1ormdui8qdvue.cloudfront.net/hooks/hoarder-stable.tgz \
-        | tar -xz -C /opt/nanobox/hooks"
+      https://s3.amazonaws.com/tools.microbox.cloud/hooks/hoarder-stable.tgz \
+        | tar -xz -C /opt/microbox/hooks"
   end
 
   execute "Finalize update" do
-    command "mv /tmp/hooks.md5 /var/nanobox/hooks.md5"
+    command "mv /tmp/hooks.md5 /var/microbox/hooks.md5"
   end
 end

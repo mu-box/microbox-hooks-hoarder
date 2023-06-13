@@ -4,7 +4,7 @@
 exec 2>&1
 
 # export the path to be sure it's set properly
-export PATH="/data/sbin:/data/bin:/opt/gonano/sbin:/opt/gonano/bin:/opt/local/sbin:/opt/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="/data/sbin:/data/bin:/opt/gomicro/sbin:/opt/gomicro/bin:/opt/local/sbin:/opt/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # command to run ssh
-exec /opt/gonano/sbin/sshd -D -e 2>&1
+exec /opt/gomicro/sbin/sshd -D -e 2>&1

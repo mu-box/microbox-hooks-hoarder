@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # hookit is installed as a bundled app, so we need bundler to load it for us
-$:.unshift  '/opt/gonano/hookit/vendor/bundle'
+$:.unshift  '/opt/gomicro/hookit/vendor/bundle'
 require 'bundler/setup'
 
 # load hookit/setup to bootstrap hookit and import the dsl
@@ -22,8 +22,8 @@ template '/etc/hoarder/config.yml' do
   source 'hoarder/config.yml.erb'
   mode 0644
   variables ({ config: (payload[:config] || {}) })
-  owner 'gonano'
-  group 'gonano'
+  owner 'gomicro'
+  group 'gomicro'
 end
 
 # ensure slurp data directory exists
@@ -41,13 +41,13 @@ template '/etc/slurp/config.json' do
   source 'slurp/config.json.erb'
   mode 0644
   variables ({ config: (payload[:config] || {}) })
-  owner 'gonano'
-  group 'gonano'
+  owner 'gomicro'
+  group 'gomicro'
 end
 
 # configure narc
 if payload[:logvac_host]
-  template '/opt/gonano/etc/narc.conf' do
+  template '/opt/gomicro/etc/narc.conf' do
     variables ({
       uid: payload[:component][:uid], logvac: payload[:logvac_host]
     })
@@ -75,20 +75,20 @@ if payload[:platform] != 'local'
   end
 
   # Create some ssh host keys
-  execute "ssh-keygen -f /opt/gonano/etc/ssh/ssh_host_rsa_key -N '' -t rsa" do
-    not_if { ::File.exists? '/opt/gonano/etc/ssh/ssh_host_rsa_key' }
+  execute "ssh-keygen -f /opt/gomicro/etc/ssh/ssh_host_rsa_key -N '' -t rsa" do
+    not_if { ::File.exists? '/opt/gomicro/etc/ssh/ssh_host_rsa_key' }
   end
 
-  execute "ssh-keygen -f /opt/gonano/etc/ssh/ssh_host_dsa_key -N '' -t dsa" do
-    not_if { ::File.exists? '/opt/gonano/etc/ssh/ssh_host_dsa_key' }
+  execute "ssh-keygen -f /opt/gomicro/etc/ssh/ssh_host_dsa_key -N '' -t dsa" do
+    not_if { ::File.exists? '/opt/gomicro/etc/ssh/ssh_host_dsa_key' }
   end
 
-  execute "ssh-keygen -f /opt/gonano/etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa" do
-    not_if { ::File.exists? '/opt/gonano/etc/ssh/ssh_host_ecdsa_key' }
+  execute "ssh-keygen -f /opt/gomicro/etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa" do
+    not_if { ::File.exists? '/opt/gomicro/etc/ssh/ssh_host_ecdsa_key' }
   end
 
-  execute "ssh-keygen -f /opt/gonano/etc/ssh/ssh_host_ed25519_key -N '' -t ed25519" do
-    not_if { ::File.exists? '/opt/gonano/etc/ssh/ssh_host_ed25519_key' }
+  execute "ssh-keygen -f /opt/gomicro/etc/ssh/ssh_host_ed25519_key -N '' -t ed25519" do
+    not_if { ::File.exists? '/opt/gomicro/etc/ssh/ssh_host_ed25519_key' }
   end
 
 end

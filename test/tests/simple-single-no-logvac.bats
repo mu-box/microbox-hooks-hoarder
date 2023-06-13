@@ -15,7 +15,7 @@
   [ "$status" -eq 0 ]
 
   # Verify narc configuration
-  run docker exec simple-single-no-logvac bash -c "[ -f /opt/gonano/etc/narc.conf ]"
+  run docker exec simple-single-no-logvac bash -c "[ -f /opt/gomicro/etc/narc.conf ]"
   [ "$status" -eq 1 ]
 }
 
